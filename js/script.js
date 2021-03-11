@@ -21,11 +21,33 @@ document.addEventListener('DOMContentLoaded', () => {
 function loadQuestion() {
     // insert question
     document.querySelector('#question').innerText = questions[currentQues].q
-        // create buttons for options
     const optionArea = document.querySelector('#options')
+    optionArea.innerHTML = ''
     for (const option of questions[currentQues].options) {
         const button = document.createElement('button')
         button.innerText = option
+        button.onclick = checkAnswer
         optionArea.append(button)
+    }
+}
+
+function checkAnswer() {
+    // compare the text content of the button clicked with the correct answer    
+    if (this.textContent === questions[currentQues].correct) {
+        // increment the score
+        score++
+    }
+    // increment the question pointer
+    currentQues++
+    // update the score shown
+    document.querySelector('#correct').innerText = score + ' of ' + currentQues
+        // load the next ques if the quiz is not complete
+    if (currentQues < questions.length) {
+        loadQuestion()
+    }
+    // else show the final result
+    else {
+        document.querySelector('#question').innerText = 'Score: ' + score + '/' + currentQues
+        document.querySelector('#options').innerHTML = ''
     }
 }
