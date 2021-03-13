@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    max-height: 9999999px;
 }
 
 body {
@@ -14,8 +15,9 @@ h1 {
     color: whitesmoke;
 }
 
-h1 {
+h2 {
     color: white;
+    line-height: 1.2;
 }
 
 button {
