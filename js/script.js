@@ -51,11 +51,34 @@ const questions = [{
         }
     ]
     // track score and the question currently in view
-let score = 0
-let currentQues = 0
+let score = parseInt(localStorage.getItem('score')) || 0
+let currentQues = parseInt(localStorage.getItem('currentQues')) || 0
     // load question when the DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    loadQuestion()
+    // load question and update score only if the quiz hasn't been played before
+    if (currentQues < questions.length) {
+        loadQuestion()
+        updateScoreShown()
+    }
+    // else show a Play Again button
+    else {
+        document.querySelector('#tag').innerText = 'You have already answered this quiz before. Do you want to start it again?'
+        const button = document.createElement('button')
+        button.textContent = 'Yes, I wanna play again'
+        button.style.marginTop = '30px'
+        button.onclick = function() {
+            // reset score and current question pointer to zero
+            score = 0
+            currentQues = 0
+            localStorage.setItem('score', score)
+            localStorage.setItem('currentQues', currentQues)
+                // load question and update score shown
+            loadQuestion()
+            updateScoreShown()
+            this.parentElement.removeChild(this)
+        }
+        document.body.append(button)
+    }
 })
 
 function loadQuestion() {
@@ -80,7 +103,7 @@ function checkAnswer() {
     // increment the question pointer
     currentQues++
     // update the score shown
-    document.querySelector('#correct').innerText = score + ' of ' + currentQues
+    updateScoreShown()
         // load the next ques if the quiz is not complete
     if (currentQues < questions.length) {
         loadQuestion()
@@ -90,4 +113,12 @@ function checkAnswer() {
         document.querySelector('#question').innerText = 'Score: ' + score + '/' + currentQues
         document.querySelector('#options').innerHTML = ''
     }
+    // retain score and current question pointer in local storage
+    localStorage.setItem('score', score)
+    localStorage.setItem('currentQues', currentQues)
+}
+
+// update the score shown in DOM
+function updateScoreShown() {
+    document.querySelector('#tag').innerText = 'Questions correct: ' + score + ' of ' + currentQues
 }
