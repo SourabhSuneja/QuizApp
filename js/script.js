@@ -45,7 +45,7 @@ const questions = [{
             correct: 'Knowledge'
         },
         {
-            q: "If Sourabh plans to settle abroad, where is he mostly likely to go?",
+            q: "If Sourabh plans to settle abroad, where is he most likely to go?",
             options: ['US', 'Britain', 'Canada', 'Australia'],
             correct: 'US'
         }
